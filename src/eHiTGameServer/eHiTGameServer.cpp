@@ -1,6 +1,4 @@
-//Veritabanli kullanici sistemiyle program acilacak
-	//Veri tabani baglanti yardimcisi
-	//Veri tabani kullanici olusturma ve silme ve yetkiler
-	//Veri tabani uye giris cikisi yonetimi
-//Veri tabanindan alinan bilgilere gore portlar dinlencek
-//Veri tabanindan alinan bilgilere gore islemler yapilcak
+//It's going to be multi user mysql integrated game server
+//Easly custimaze ports and values according to the db
+//It should be able to run JS or another script language for the custumized process. This can be done for long time after
+//
