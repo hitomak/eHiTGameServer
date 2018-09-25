@@ -1,46 +1,30 @@
-/*
-//It Should Be Mysql connector c++ v8.0
-//Which is here is for connector c++ v1.**
-#include "stdafx.h"
-#include <mysql.h>
+//Experimenting some one's work trying to undertand and how to use it
 #include <iostream>
 #include <mysqlx/xdevapi.h>
 
-using namespace std;
-int qstate;
+using ::std::cout;
+using ::std::endl;
 
 int main()
-{
-	MYSQL* conn;
-	MYSQL_ROW row;
-	MYSQL_RES *res;
-	conn = mysql_init(0);
+try {
+	using namespace ::mysqlx;
 
-	conn = mysql_real_connect(conn, "localhost", "root", "password", "testdb", 3306, NULL, 0);
+	Session sess("user:password@host/schema"); //
 
-	if (conn) {
-		puts("Successful connection to database!");
+	Collection coll = sess.getDefaultSchema().createCollection("myCollection", true);
 
-		string query = "SELECT * FROM test";
-		const char* q = query.c_str();
-		qstate = mysql_query(conn, q);
-		if (!qstate)
-		{
-			res = mysql_store_result(conn);
-			while (row = mysql_fetch_row(res))
-			{
-				printf("ID: %s, Name: %s, Value: %s\n", row[0], row[1], row[2]);
-			}
-		}
-		else
-		{
-			cout << "Query failed: " << mysql_error(conn) << endl;
-		}
+	coll.add(R"({ "name": "foo"; "age": 7 })").execute();
+
+	CollectionFind query = coll.find("age < :age").fields("name", "age");
+
+	DocResult res = query.bind("age", 18).execute();
+
+	for (DbDoc doc : res)
+	{
+		cout << "name: " << doc["name"]	<< ", age: " << doc["age"]	<< endl;
 	}
-	else {
-		puts("Connection to database has failed!");
-	}
-
-	return 0;
 }
-*/
+catch (const mysqlx::Error &err)
+{
+	cout << "ERROR: " << err << endl;
+}
