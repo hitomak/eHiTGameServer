@@ -1,4 +1,4 @@
-//Experimenting some one's work trying to undertand and how to use it
+//Experimenting some one's work trying to understand and how to use it
 #include <iostream>
 #include <mysqlx/xdevapi.h>
 
