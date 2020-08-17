@@ -3,11 +3,10 @@
 #include <WS2tcpip.h>
 #pragma comment(lib, "ws2_32.lib")
 
-using namespace std;
 
 int main()
 {
-	string ipAddress = "127.0.0.1"; //Ip Addres of the server
+	std::string ipAddress = "127.0.0.1"; //Ip Addres of the server
 	int port = 54000;				// Listening port # on the server
 
 	//Initialize Winsock
@@ -16,7 +15,7 @@ int main()
 	int wsResult = WSAStartup(ver, &data);
 	if (wsResult != 0)
 	{
-		cerr << "Can't start Winsock, Err #" << wsResult << endl;
+		std::cerr << "Can't start Winsock, Err #" << wsResult << std::endl;
 		return 0;
 	}
 
@@ -24,7 +23,7 @@ int main()
 	SOCKET sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock==INVALID_SOCKET)
 	{
-		cerr << "Can't create socket, Err#" << WSAGetLastError() << endl;
+		std::cerr << "Can't create socket, Err#" << WSAGetLastError() << std::endl;
 
 	}
 
@@ -38,7 +37,7 @@ int main()
 	int connResult = connect(sock, (sockaddr*)&hint, sizeof(hint));
 	if (connResult == SOCKET_ERROR)
 	{
-		cerr << "Can't create socket, Err#" << WSAGetLastError() << endl;
+		std::cerr << "Can't create socket, Err#" << WSAGetLastError() << std::endl;
 		closesocket(sock);
 		WSACleanup();
 		return 0;
@@ -46,13 +45,13 @@ int main()
 
 	//Do-while loop to sen and recive data
 	char buf[4096];
-	string userInput;
+	std::string userInput;
 
 	do 
 	{
 		//Prompt the user for some text
-		cout << "> ";
-		getline(cin, userInput);
+		std::cout << "> ";
+		std::getline(std::cin, userInput);
 
 		if(userInput.size()>0)
 		{
@@ -66,7 +65,7 @@ int main()
 				if (bytesRecived > 0)
 				{
 					//Echo response to console
-					cout << "SERVER>" << string(buf, 0, bytesRecived) << endl;
+					std::cout << "SERVER>" << std::string(buf, 0, bytesRecived) << std::endl;
 				}
 			}
 		}
